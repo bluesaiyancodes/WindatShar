@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+       <!-- <meta name="viewport" content="width=device-width, initial-scale=1">  -->
+        <title>Wind Visualization</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script lang="javascript">
+                function getCookie(cname) {
+                    var name = cname + '=';
+                    var decodedCookie = decodeURIComponent(document.cookie);
+                    var ca = decodedCookie.split(';');
+                    for(var i = 0; i <ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                        }
+                    }
+                    return '';
+                }
+
+                function initInput(){
+                    //alert(getCookie('terr_flag1'))
+                    
+                    if (getCookie('level')){
+                        document.getElementById('lvl').value = getCookie('level');
+                    }else{
+                        document.getElementById('lvl').value = "35";
+                       // alert('lvl1')
+                    }
+                    if (getCookie('leap')){
+                        document.getElementById('lp').value = getCookie('leap');
+                    }else{
+                        document.getElementById('lp').value = "15";
+                    }
+                    if (getCookie('h')){
+                        document.getElementById('h').value = getCookie('h');
+                    }else{
+                        document.getElementById('h').value = "500";
+                    }
+                    if (getCookie('arrow_size')){
+                        document.getElementById('as').value = getCookie('arrow_size');
+                    }else{
+                        document.getElementById('as').value = "0.9";
+                    }
+                    if (getCookie('terr_file1')){
+                        document.getElementById('terr_file').value = getCookie('terr_file1');
+                    }else{
+                        document.getElementById('terr_file').value = "";
+                    }
+                    if (getCookie('wind_file1')){
+                        document.getElementById('wind_file').value = getCookie('wind_file1');
+                    }else{
+                        document.getElementById('wind_file').value = "";
+                    }
+                    
+                    
+                    if (getCookie('terr_flag1') == 'show'){
+                        //alert('checked');
+                        document.getElementById('terr').checked = true;
+                       // alert('checked');
+                    }else{
+                        //alert('unchecked');
+                        document.getElementById('terr').checked = false;
+                        //alert('unchecked');
+                    }
+                    if (getCookie('wnd_flag1') == 'show'){
+                        document.getElementById('wnd').checked = true;
+                      //  alert('lets see')
+                    }else{
+                        document.getElementById('wnd').checked = false;
+                        //alert('dont see')
+                    }
+                    if (getCookie('cntr_flag1') == 'show'){
+                        document.getElementById('cntr').checked = true;
+                    }else{
+                        document.getElementById('cntr').checked = false;
+                    }
+                    if (getCookie('anim_flag1') == 'show'){
+                        document.getElementById('anim').checked = true;
+                    }else{
+                        document.getElementById('anim').checked = false;
+                    }
+                }
+
+                
+                
+                function validate(){
+                    setCookie('level', document.getElementById('lvl').value);
+                    setCookie('leap', document.getElementById('lp').value);
+                    setCookie('h', document.getElementById('h').value);
+                    setCookie('arrow_size', document.getElementById('as').value);
+
+                    if (document.getElementById('terr').checked){
+                        document.getElementById('terr_flag').value = "show";
+                    }else{
+                        document.getElementById('terr_flag').value = "notshow";
+                    }
+                    if (document.getElementById('wnd').checked){
+                        document.getElementById('wnd_flag').value = "show";
+                    }else{
+                        document.getElementById('wnd_flag').value = "notshow";
+                    }
+                    if (document.getElementById('cntr').checked){
+                        document.getElementById('cntr_flag').value = "show";
+                    }else{
+                        document.getElementById('cntr_flag').value = "notshow";
+                    }
+                    if (document.getElementById('anim').checked){
+                        document.getElementById('anim_flag').value = "show";
+                    }else{
+                        document.getElementById('anim_flag').value = "notshow";
+                    }
+                    setCookie('terr_flag1', document.getElementById('terr_flag').value);
+                    setCookie('wnd_flag1', document.getElementById('wnd_flag').value);
+                    setCookie('cntr_flag1', document.getElementById('cntr_flag').value);
+                    setCookie('anim_flag1', document.getElementById('anim_flag').value);
+                    setCookie('terr_file1', document.getElementById('terr_file').value);
+                    setCookie('wind_file1', document.getElementById('wind_file').value);
+                    return true;
+                }
+                function setCookie(cname, value) {
+                    document.cookie = cname + '=' + value + ';' + ';path=/';
+                }
+                
+            </script>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+    </head>
+
+    <body onLoad="initInput()">
+        <div class="topnav">
+            <form name = "choices" method="POST" onsubmit="return validate()">
+                <ul style="list-style-type:none;">
+                    <li>
+                        <label for="myfile1">Select terrain datafile:</label>
+                        <input type="file" id="ter_file" name="myfile"><br><br>
+                    </li>
+                    <li>
+                        <label for="myfile2">Select wind datafile:</label>
+                        <input type="file" id="wind_file" name="myfile"><br><br>
+                    </li>
+                </ul>
+                <ul style="list-style-type:none;">
+                    <li>Wind Level: <input type="number" name="level" id='lvl' value="35"></li>
+                    <li>Skip By: <input type="number" name="leap" id='lp' value="15"></li>
+                    <li>Height of Wind Vectors: <input type="number" name="h" id='h' value="500"></li>
+                    <li>Vectors Size: <input type="number", step="any" name="arrow_size" id='as' value="0.9"></li>
+                </ul><br>
+                <ul style="list-style-type:none;">
+                    <li>Terrain: <input type="checkbox" id = 'terr' name="terrain" value="show"></li>
+                    <li>Wind: <input type="checkbox" id = 'wnd' name="wind" value="show"></li>
+                    <li>Contour: <input type="checkbox" id = 'cntr' name="contour" value="show"></li>
+                </ul><br>
+                <ul style="list-style-type:none;">
+                    <li>Animate: <input type="checkbox" id = 'anim' name="animate" value="show"></li>
+                </ul>
+                <input type='hidden' id= 'terr_flag' name='terr_flag' value='' />
+                <input type='hidden' id= 'wnd_flag' name='wnd_flag' value='' />
+                <input type='hidden' id= 'cntr_flag' name='cntr_flag' value='' />
+                <input type='hidden' id= 'anim_flag' name='anim_flag' value='' />
+                <br>
+
+                <input type = "submit" value = "Render Plot"><br>
+            </form>
+        </div>
+        <div class="asterisk">
+            <center>*Reassign Values after Render</center><br>
+        </div>
+
+        <div id="chart" class="chart">
+        </div>
+        
+    </body>
+
+        <script type="text/javascript">
+            var graphs = {{graphJSON | safe}};
+            var layout = {
+             scene:{
+                 aspectmode: "manual",
+                 aspectratio: {x: 1,y: 0.75,z: 0.1},
+                 xaxis: {nticks: 10, range: [70, 87]},
+                 zaxis: {nticks: 5},
+                 yaxis: {range: [5, 20]},
+                 camera: {eye: {x: 0.28, y: -0.08,z: 0.15}},
+                },
+                coloraxis:{colorscale: "portland"}
+            };
+           
+            Plotly.newPlot('chart',graphs,layout);   
+        </script>
+
+</html>
+
+
+
+

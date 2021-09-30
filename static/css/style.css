@@ -1,0 +1,66 @@
+@keyframes example {
+    0%   {background-color:lightpink;}
+    25%  {background-color:lightblue;}
+    50%  {background-color: palevioletred;}
+    75%  {background-color: darksalmon;}
+    100% {background-color:white;}
+}
+
+.topnav{
+    padding-top: 40px;
+    overflow: hidden;
+    font-size: 30px;
+    font-family: Arial;
+
+    text-align: center;
+    width: 100%;
+
+}
+.topnav ul{
+    display:inline-block;
+}
+.topnav li{
+    float: left;
+}
+
+.topnav li+li{
+    margin-left:50px;
+}
+
+.dispblock{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    overflow: hidden;
+    background-color: white;
+    height: auto;
+    width: auto;
+    margin-block-start: 20%;
+    margin-block-end: 10%;
+    margin-left: 5%;
+    margin-right:5%;
+    border-radius:10px;
+}
+
+.chart{
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    overflow: hidden;
+    background-color: white;
+    height: auto;
+    width: auto;
+    margin-block-start: 10%;
+    margin-block-end: 10%;
+    margin-left: 5%;
+    margin-right:5%;
+    border-radius:10px;
+    box-shadow: 0 3px 25px #000;
+}
+
+.asterisk{
+    font-size: 10px;
+    font-family: Arial;
+    text-align: center;    
+    width: 100%;
+}

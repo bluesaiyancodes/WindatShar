@@ -1,0 +1,61 @@
+                    setCookie('terr_flag1', document.getElementById('terr_flag').value);
+                    setCookie('wnd_flag1', document.getElementById('wnd_flag').value);
+                    setCookie('cntr_flag1', document.getElementById('cntr_flag').value);
+
+
+
+                 if (getCookie('terr_flag1') == 'show'){
+                        document.getElementById('terr').checked = true;
+                       // alert('checked');
+                    }else{
+                        document.getElementById('terr').checked = false;
+                        //alert('unchecked');
+                    }
+                    if (getCookie('wnd_flag1') == 'show'){
+                        document.getElementById('wnd').checked = true;
+                    }else{
+                        document.getElementById('wnd').checked = false;
+                    }
+                    if (getCookie('cntr_flag1') == 'show'){
+                        document.getElementById('cntr').checked = true;
+                    }else{
+                        document.getElementById('cntr').checked = false;
+                    }
+
+
+
+ onunload="deleteAllCookies()"
+
+
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}
+
+
+return true;
+
+
+                    if (getCookie('terr') == 'show'){
+                        document.getElementById('terr').checked = true;
+                    }else{
+                        document.getElementById('terr').checked = false;
+                    }
+
+if (getCookie('terr') == 'show'){
+                        document.getElementById('terr').checked = true;
+                    }else{
+                        document.getElementById('terr').checked = false;
+                    }
+
+if (getCookie('as')){
+                        document.getElementById('arrow_size').value = parseInt(getCookie('as'))
+                    }else{
+                        document.getElementById('arrow_size').value = "0.9"
+                    }
